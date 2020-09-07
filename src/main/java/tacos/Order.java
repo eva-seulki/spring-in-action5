@@ -1,14 +1,23 @@
 package tacos;
 
-import lombok.Data;
-import org.hibernate.validator.constraints.CreditCardNumber;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Date;
 
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.CreditCardNumber;
+
+import lombok.Data;
 
 @Data
 public class Order {
+
+    private Long id;
+    private Date placedAt;
+
+
     @NotBlank(message="Name is required")
     private String deliveryName;
 
@@ -24,7 +33,6 @@ public class Order {
     @NotBlank(message="Zip code is required")
     private String deliveryZip;
 
-    // spring-boot=starter 2.3.3.RELEASE 버전에서는 지원안함
     @CreditCardNumber(message="Not a valid credit card number")
     private String ccNumber;
 
@@ -34,4 +42,11 @@ public class Order {
 
     @Digits(integer=3, fraction=0, message="Invalid CVV")
     private String ccCVV;
+
+    private List<Taco> tacos = new ArrayList<>();
+
+    public void addDesign(Taco design) {
+        this.tacos.add(design);
+    }
+
 }
